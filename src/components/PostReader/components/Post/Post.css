@@ -1,0 +1,22 @@
+.post {
+    background: rgba(255, 255, 255, .3);
+    border: 2px solid #c3c3c3;
+    margin: 0 0 20px;
+}
+
+.post-date {
+    border-bottom: 2px solid #c3c3c3;
+    font-size: 17px;
+    line-height: 38px;
+    padding: 0 10px;
+}
+
+.post-body {
+    font-size: 20px;
+    line-height: 25px;
+    padding: 5px 10px 10px;
+}
+
+.post:hover {
+    background: rgba(255, 255, 255, .5);
+}

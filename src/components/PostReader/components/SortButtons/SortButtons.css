@@ -1,0 +1,46 @@
+.posts-list-sorting-buttons {
+    width: 98px;
+}
+
+.posts-list-button {
+    width: 44px;
+    height: 42px;
+    background: transparent;
+    color: #000000;
+
+    appearance: none;
+    box-sizing: border-box;
+    border: 2px solid #414141;
+
+    font-size: 24px;
+    cursor: pointer;
+    outline: 0;
+    opacity: .8;
+}
+
+.posts-list-button + .posts-list-button {
+    margin: 0 0 0 10px;
+}
+
+.posts-list-button:hover {
+    background: #2f2f2f;
+    color: #FFFFFF;
+}
+
+.posts-list-button:focus {
+    background: rgba(0, 0, 0, .66);
+}
+
+.posts-list-button.active:focus {
+    background: rgba(0, 0, 0, .8);
+}
+
+.posts-list-button:active {
+    background: rgba(0, 0, 0, 0.76);
+}
+
+.posts-list-button.active {
+    border-color: #000000;
+    background: #000000;
+    color: #FFFFFF;
+}

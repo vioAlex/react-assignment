@@ -1,0 +1,55 @@
+.modeless-container {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog-like {
+    min-width: 550px;
+    min-height: 300px;
+    background: white;
+}
+
+.dialog-like-title {
+    font-size: 32px;
+    text-align: center;
+    margin: 38px 0 4px;
+}
+
+.dialog-like label,
+.dialog-like input {
+    display: block;
+}
+
+form {
+    width: 300px;
+    margin: 24px auto;
+}
+
+.dialog-like label {
+    width: 100%;
+    margin: 14px 0;
+}
+
+.dialog-like input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 18px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 6px;
+    margin: 6px 0;
+    border-width: 2px;
+}
+
+.buttons-set {
+    margin: 12px 0;
+    text-align: right;
+}
+
+.buttons-set button {
+    display: inline-block;
+}

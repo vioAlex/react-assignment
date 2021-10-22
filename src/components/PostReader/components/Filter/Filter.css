@@ -1,0 +1,8 @@
+.filter-field {
+    font-size: 18px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    border-width: 2px;
+}

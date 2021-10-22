@@ -1,0 +1,74 @@
+.post-reader-layout {
+    box-sizing: border-box;
+    width: 1024px;
+    height: 100%;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    grid-template-rows: 95px 1fr;
+    grid-column-gap: 13px;
+
+    grid-template-areas: "sender-list-filter post-list-manager"
+                         "sender-list post-list";
+}
+
+.sender-list-container {
+    grid-area: sender-list;
+    height: calc(100% - 95px);
+}
+
+.post-list-container {
+    grid-area: post-list;
+}
+
+.sender-list-filter-container {
+    grid-area: sender-list-filter;
+}
+
+.post-list-manager-container {
+    grid-area: post-list-manager;
+}
+
+.post-list-manager-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sender-list-filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sender-list-container,
+.post-list-container {
+    height: 100%;
+    overflow: hidden;
+}
+
+.sender-list,
+.post-list,
+.post-page {
+    height: 100%;
+}
+
+.sender-list {
+    overflow: auto;
+}
+
+.post-list {
+    box-sizing: border-box;
+    padding-bottom: 100px;
+}
+
+.post-page {
+    overflow: auto;
+}
+
+.page-buttons {
+    margin-top: 38px;
+    text-align: center;
+}
+
