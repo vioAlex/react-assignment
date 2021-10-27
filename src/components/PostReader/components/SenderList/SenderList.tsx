@@ -24,7 +24,8 @@ function SenderList({ list, onSelect }: SenderListProps) {
     const idActiveSenderParam = params.idActiveSenderParam || '';
 
     useEffect(() => {
-        setIdActiveSender(idActiveSenderParam);
+        onSenderSelect(idActiveSenderParam);
+        // eslint-disable-next-line
     }, [idActiveSenderParam]);
 
     function onSenderSelect(id: string) {
