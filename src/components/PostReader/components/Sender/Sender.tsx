@@ -1,20 +1,17 @@
 import './Sender.css';
-import { Link, useRouteMatch } from "react-router-dom";
 import { SenderProps } from '../SenderList/SenderList';
 
-function Sender({id, name, postCount}: SenderProps) {
-    let match = useRouteMatch({
-        path: `/${id}`,
-        exact: true
-    });
-
+function Sender({id, name, postCount, active, onSelect}: SenderProps) {
     return (
-        <div className={match ? 'sender selected' : 'sender'}
+        <div className={active ? 'sender selected' : 'sender'}
              title={name}
              data-post-count={postCount}>
-            <Link tabIndex={0} to={`/${id}`}>
+            <div tabIndex={0} onKeyPress={(e) => {
+                e.preventDefault();
+                (e.code === 'Space' || e.code === 'Enter') && onSelect(id);
+            }} onClick={() => {onSelect(id)}}>
                 {name}
-            </Link>
+            </div>
         </div>
     );
 }

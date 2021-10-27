@@ -19,6 +19,7 @@ export interface PostListProps {
 
 export interface SenderListProps {
     list: VMSender[];
+    onSelect: (id: string) => void
 }
 
 export interface SortButtonProps {
@@ -40,7 +41,7 @@ function PostReader() {
     const {vmSenders, vmPosts} = data;
 
     const [pageFromTo, setPageFromTo] = useState({
-        from: 0, to: 100
+        from: 0, to: postsPerPage
     });
 
     let posts = vmPosts.slice(pageFromTo.from, pageFromTo.to);
@@ -55,6 +56,10 @@ function PostReader() {
 
     function onPostsFilterChange(filter: string) {
         dispatch('postBodyFilter', filter);
+    }
+
+    function onSenderSelect(id: string) {
+        dispatch('activeSender', id);
     }
 
     function onSort(direction: Sort) {
@@ -82,7 +87,7 @@ function PostReader() {
                 <Filter name="post-list-filter-field" onChange={onPostsFilterChange}/>
             </div>
             <aside className="sender-list-container">
-                <SenderList direction={Sort.ASC} list={vmSenders}/>
+                <SenderList direction={Sort.ASC} list={vmSenders} onSelect={onSenderSelect}/>
             </aside>
             <div className="post-list-container">
                 {0 < vmPosts.length ? <PostList direction={sortDirection} list={posts}

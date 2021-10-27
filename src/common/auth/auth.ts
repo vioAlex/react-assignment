@@ -25,8 +25,8 @@ interface User {
 
 interface AuthProvider {
     user: User;
-    isAuthorized: () => boolean,
-    isAuthenticated: () => boolean,
+    isAuthorized: () => boolean;
+    isAuthenticated: () => boolean;
     signIn: (credentials: UserLoginCredentials) => Promise<void>;
     signOut: () => void;
 }
@@ -44,7 +44,7 @@ const authService: AuthService = (function () {
     let request: Promise<string> | undefined;
 
     async function getSlToken(name: string, email: string): Promise<string> {
-        return (await API.getRegisterToken(name, email)).data.sl_token
+        return (await API.getRegisterToken(name, email)).data.sl_token;
     }
 
     async function signIn(credentials: UserLoginCredentials): Promise<TokenValue> {

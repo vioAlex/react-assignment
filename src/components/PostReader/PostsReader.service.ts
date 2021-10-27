@@ -1,14 +1,13 @@
 import * as API from "../../common/vendor-api";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../common/auth/auth";
-import { useParams } from "react-router-dom";
 
 export enum Sort {
     ASC,
     DESC
 }
 
-interface ActiveSenderParam {
+export interface ActiveSenderParam {
     idActiveSenderParam: string | undefined;
 }
 
@@ -148,29 +147,40 @@ const initialFilterState: AppFilterState = {
     postBodyFilter: ''
 }
 
+interface SetFilterValue {
+    (filter: AppFilterState | keyof AppFilterState, value?: string): DataProviderService;
+}
 
 interface DataProviderService {
     token: string;
+    init: boolean;
 
     filter: AppFilterState,
     getData: () => Promise<DataMap>,
 
-    setFilterValue: (type: keyof AppFilterState, value: string) => DataProviderService,
+    setFilterValue: SetFilterValue,
 
     setData: (map: DataMap) => void;
-    dispatch: (type: keyof AppFilterState, value: string) => void;
+    dispatch: SetFilterValue;
 }
 
 const dataProviderService: DataProviderService = {
     token: '',
+    init: false,
     filter: initialFilterState,
     setData: () => void 0,
-    dispatch: () => void 0,
-    setFilterValue(type, value) {
-        dataProviderService.filter = {
-            ...dataProviderService.filter,
-            [type]: value
-        };
+    dispatch: () => dataProviderService,
+    setFilterValue(filter, value?) {
+
+        if ('string' === typeof filter) {
+            dataProviderService.filter = {
+                ...dataProviderService.filter,
+                [filter]: value
+            };
+        } else {
+            dataProviderService.filter = filter;
+        }
+
         return dataProviderService;
     },
     async getData() {
@@ -184,36 +194,39 @@ const dataProviderService: DataProviderService = {
 
 function usePostsData(): {
     data: DataMap;
-    dispatch: (filter: keyof AppFilterState, value: string) => void
+    dispatch: SetFilterValue
 } {
     let {user, isAuthorized, signIn} = useAuth();
-    const [data, setData] = useState(initialState);
-    const params = useParams<ActiveSenderParam>();
-    const activeSender = params.idActiveSenderParam || '';
+    const [data, setData] = useState<DataMap>(initialState);
+
+    const setFilterValue: SetFilterValue = (filter, value?) => {
+        dataProviderService.setFilterValue(filter, value).getData().then(setData);
+        return dataProviderService;
+    }
+
+    const dispatch: SetFilterValue = (filter, value?) => {
+        if (!isAuthorized()) {
+            signIn(user).then(() => {
+                setFilterValue(filter, value)
+            });
+
+            return dataProviderService;
+        }
+
+        setFilterValue(filter, value);
+        return dataProviderService;
+    }
 
     dataProviderService.token = user.token.value;
     dataProviderService.dispatch = dispatch;
 
     useEffect(() => {
-        if ('undefined' !== typeof activeSender) {
-            dataProviderService.dispatch('activeSender', activeSender);
+        if (!dataProviderService.init) {
+            dataProviderService.dispatch(dataProviderService.filter);
+            dataProviderService.init = true;
         }
-    }, [activeSender]);
-
-    function setFilterValue(filter: keyof AppFilterState, value: string) {
-        dataProviderService.setFilterValue(filter, value).getData().then(setData);
-    }
-
-    function dispatch(filter: keyof AppFilterState, value: string) {
-        if (!isAuthorized()) {
-            signIn(user).then(() => {
-                setFilterValue(filter, value)
-            });
-            return;
-        }
-
-        setFilterValue(filter, value);
-    }
+        console.log('init');
+    }, []);
 
     return {
         data: data,
